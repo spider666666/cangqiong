@@ -125,7 +125,7 @@ public class EmployeeController {
 
     /**
      * 修改员工的信息，利用了方法的幂等性，也就是说同一种方法多次请求只会改变一次数据
-     * @param dto
+     * @param employeeDTO
      *
      */
     @PutMapping
