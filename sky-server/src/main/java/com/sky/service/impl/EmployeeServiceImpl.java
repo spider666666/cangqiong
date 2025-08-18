@@ -103,4 +103,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(total,result);
     }
 
+    @Override
+    public void updateStatus(Integer status, Long id) {
+        //1.新建原本的数据对象
+        Employee employee = Employee.builder()
+                .id(id)
+                .status(status)
+                .build();
+
+        //2.在数据层进行更新
+        employeeMapper.update(employee);
+    }
+
 }

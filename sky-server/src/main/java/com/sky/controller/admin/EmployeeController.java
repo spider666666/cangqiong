@@ -102,4 +102,12 @@ public class EmployeeController {
 
     }
 
+    //实现员工状态的改变
+    @PostMapping("/status/{status}")
+    @ApiOperation("员工状态的改变")
+    public Result startOrStop(@PathVariable("status") Integer status,Long id){
+        employeeService.updateStatus(status,id);
+        return Result.success();
+    }
+
 }
