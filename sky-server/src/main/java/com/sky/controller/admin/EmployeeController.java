@@ -110,4 +110,29 @@ public class EmployeeController {
         return Result.success();
     }
 
+
+    /**
+     * 实现用户的查询
+     * @param id
+     * @return employee
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据员工id进行查询")
+    public Result<Employee> getById(@PathVariable("id") Long id){
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * 修改员工的信息，利用了方法的幂等性，也就是说同一种方法多次请求只会改变一次数据
+     * @param dto
+     *
+     */
+    @PutMapping
+    @ApiOperation("修改员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        employeeService.update(employeeDTO);
+        return Result.success();
+
+    }
 }
