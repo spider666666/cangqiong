@@ -90,7 +90,7 @@ public class CategoryController {
     }
 
     /**
-     * 根据类型查询分类
+     * 根据类型查询分类,注意的是这个并没有被调用，而是在分页的时候实现了相同的功能，而且还实现分页查询
      * @param type
      * @return
      */
