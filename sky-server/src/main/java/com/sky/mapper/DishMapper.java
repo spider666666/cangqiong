@@ -36,4 +36,7 @@ public interface DishMapper {
     void deleteBatch(List<Long> ids);
 
     void update(Dish dish);
+
+    //根据分类id返回菜品列表
+    List<Dish> list(Dish dish);
 }
