@@ -6,27 +6,25 @@ import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
-import com.sky.entity.Category;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
-import com.sky.entity.Setmeal;
 import com.sky.exception.DeletionNotAllowedException;
-import com.sky.mapper.CategoryMapper;
 import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
-import com.sky.service.CategoryService;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,11 +37,12 @@ public class DishServiceImpl implements DishService {
     @Autowired
     private DishFlavorMapper dishFlavorMapper;
 
-    @Autowired
-    private CategoryMapper categoryMapper;
 
     @Autowired
     private SetmealMapper setmealMapper;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     @Transactional
@@ -104,6 +103,9 @@ public class DishServiceImpl implements DishService {
         dish.setStatus(status);
         //2.对数据进行修改
         dishMapper.update(dish);
+        //删除当前缓存中的菜品
+        Set<String> keys = stringRedisTemplate.keys("dish_*");
+        stringRedisTemplate.delete(keys);
     }
 
     @Override
@@ -138,6 +140,11 @@ public class DishServiceImpl implements DishService {
 
         //4.删除相关联的口味数据
         dishFlavorMapper.deleteBatch(ids);
+
+        Set<String> keys = stringRedisTemplate.keys("dish_*");
+        stringRedisTemplate.delete(keys);
+
+
     }
 
     @Override
@@ -165,6 +172,10 @@ public class DishServiceImpl implements DishService {
                 .collect(Collectors.toList());
         //2.4然后添加口味
         dishFlavorMapper.insert(collects);
+
+        //删除当前缓存中的菜品
+        Set<String> keys = stringRedisTemplate.keys("dish_*");
+        stringRedisTemplate.delete(keys);
 
     }
 

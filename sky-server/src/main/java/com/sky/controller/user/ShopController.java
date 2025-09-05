@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @Api("店铺操作")
 @RequestMapping("/user/shop")
 public class ShopController {
-
     @Autowired
     private ShopService shopService;
     @ApiOperation("获取营业状态")
@@ -20,10 +19,4 @@ public class ShopController {
         return shopService.getStatus();
 
     }
-
-    @PutMapping("/{status}")
-    public Result updateStatus(@PathVariable("status") Integer status){
-        return shopService.updateStatus(status);
-    }
-
 }

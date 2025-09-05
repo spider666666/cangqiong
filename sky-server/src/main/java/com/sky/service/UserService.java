@@ -6,5 +6,5 @@ import com.sky.vo.UserLoginVO;
 
 public interface UserService {
 
-    public Result<UserLoginVO> login(UserLoginDTO userLoginDTO);
+    Result<UserLoginVO> login(UserLoginDTO userLoginDTO);
 }

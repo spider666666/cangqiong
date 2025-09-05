@@ -29,4 +29,5 @@ public class ShopServiceImp implements ShopService {
         stringRedisTemplate.opsForValue().set("SHOP_STATUS",status.toString());
         return Result.success("已经成功修改了店铺状态");
     }
+
 }

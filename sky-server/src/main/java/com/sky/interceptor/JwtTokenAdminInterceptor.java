@@ -41,22 +41,49 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
         //1、从请求头中获取令牌
         String token = request.getHeader(jwtProperties.getAdminTokenName());
+        //1.1从请求头中获取令牌
+        String authentication = request.getHeader(jwtProperties.getUserTokenName());
 
         //2、校验令牌（其实就是解析）
-        try {
-            log.info("jwt校验:{}", token);
-            Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
-            Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
-            log.info("当前员工id：", empId);
+        if(token != null){
+            try {
+                log.info("jwt校验:{}", token);
+                Claims claims = JwtUtil.parseJWT(jwtProperties.getAdminSecretKey(), token);
+                Long empId = Long.valueOf(claims.get(JwtClaimsConstant.EMP_ID).toString());
+                log.info("当前员工id：", empId);
 
-            //将当前员工的id放入当前threadlocal中
-            BaseContext.setCurrentId(empId);
-            //3、通过，放行
-            return true;
-        } catch (Exception ex) {
-            //4、不通过，响应401状态码
-            response.setStatus(401);
-            return false;
+                //将当前员工的id放入当前threadlocal中
+                BaseContext.setCurrentId(empId);
+                //3、通过，放行
+                return true;
+            } catch (Exception ex) {
+                //4、不通过，响应401状态码
+                response.setStatus(401);
+                return false;
+            }
         }
+        if (authentication != null) {
+            //2.2校验用户端的令牌
+            try {
+                log.info("jwt校验:{}", authentication);
+                Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), authentication);
+                Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
+                log.info("当前员工id：", userId);
+
+                //将当前员工的id放入当前threadlocal中
+                BaseContext.setCurrentId(userId);
+                //3、通过，放行
+                return true;
+            } catch (Exception ex) {
+                //4、不通过，响应401状态码
+                response.setStatus(401);
+                return false;
+            }
+        }
+
+        //如果说两个令牌都没有，那么直接返回错误,401状态码通常表示未登入的意思
+        response.setStatus(401);
+        return false;
+
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user/user")
+@RequestMapping("/user/user")
 @Api("C端用户接口")
 public class UserController {
 

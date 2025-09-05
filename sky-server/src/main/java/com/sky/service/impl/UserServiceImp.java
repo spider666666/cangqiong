@@ -4,6 +4,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sky.constant.MessageConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.UserLoginDTO;
 import com.sky.entity.User;
 import com.sky.exception.LoginFailedException;
@@ -75,6 +76,8 @@ public class UserServiceImp implements UserService {
                 .openid(openid)
                 .token(token)
                 .build();
+
+
         return Result.success(userLoginVO);
     }
 }
