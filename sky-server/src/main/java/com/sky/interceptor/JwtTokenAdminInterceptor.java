@@ -41,8 +41,10 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
         //1、从请求头中获取令牌
         String token = request.getHeader(jwtProperties.getAdminTokenName());
+
         //1.1从请求头中获取令牌
         String authentication = request.getHeader(jwtProperties.getUserTokenName());
+
 
         //2、校验令牌（其实就是解析）
         if(token != null){
@@ -68,10 +70,11 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
                 log.info("jwt校验:{}", authentication);
                 Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), authentication);
                 Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-                log.info("当前员工id：", userId);
+                log.info("当前员工id:{}", userId);
 
                 //将当前员工的id放入当前threadlocal中
                 BaseContext.setCurrentId(userId);
+                log.info("已经将该用户id放入当前线程");
                 //3、通过，放行
                 return true;
             } catch (Exception ex) {
@@ -82,6 +85,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
         }
 
         //如果说两个令牌都没有，那么直接返回错误,401状态码通常表示未登入的意思
+        log.info("当前没有任何用户登入，无法使用该功能");
         response.setStatus(401);
         return false;
 

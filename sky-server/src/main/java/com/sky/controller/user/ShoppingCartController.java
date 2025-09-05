@@ -1,5 +1,6 @@
 package com.sky.controller.user;
 
+import com.sky.context.BaseContext;
 import com.sky.dto.ShoppingCartDTO;
 import com.sky.entity.ShoppingCart;
 import com.sky.mapper.ShoppingCartMapper;
@@ -7,11 +8,8 @@ import com.sky.result.Result;
 import com.sky.service.ShoppingCartService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.PushBuilder;
 import java.util.List;
 
 @RestController
@@ -34,7 +32,7 @@ public class ShoppingCartController {
     @ApiOperation("查看购物车")
     @GetMapping("/list")
     public Result<List<ShoppingCart>> queryList(){
-        long userId = 666L;
+        Long userId = BaseContext.getCurrentId();
         ShoppingCart shoppingCart = ShoppingCart.builder().userId(userId).build();
         List<ShoppingCart> shoppingCartList = shoppingCartMapper.querylist(shoppingCart);
         return Result.success(shoppingCartList);
@@ -43,7 +41,7 @@ public class ShoppingCartController {
     @ApiOperation("清空购物车")
     @DeleteMapping("/clean")
     public Result clean(){
-        long userId = 666L;
+        Long userId = BaseContext.getCurrentId();
         shoppingCartMapper.deletelist(userId);
         return Result.success();
     }

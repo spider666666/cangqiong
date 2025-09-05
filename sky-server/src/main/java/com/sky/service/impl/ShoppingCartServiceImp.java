@@ -33,8 +33,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService{
         ShoppingCart shoppingCart = new ShoppingCart();
         //0.进行属性拷贝
         BeanUtils.copyProperties(shoppingCartDTO,shoppingCart);
-//        Long userId = BaseContext.getCurrentId();
-        Long userId = 666L;
+        Long userId = BaseContext.getCurrentId();
         shoppingCart.setUserId(userId);
 
         //1.首先查询数据库中有没有数据
@@ -87,8 +86,7 @@ public class ShoppingCartServiceImp implements ShoppingCartService{
         ShoppingCart shoppingCart = new ShoppingCart();
         //0.进行属性拷贝
         BeanUtils.copyProperties(shoppingCartDTO,shoppingCart);
-//        Long userId = BaseContext.getCurrentId();
-        Long userId = 666L;
+        Long userId = BaseContext.getCurrentId();
         shoppingCart.setUserId(userId);
 
         //1.首先查询数据库中有没有数据

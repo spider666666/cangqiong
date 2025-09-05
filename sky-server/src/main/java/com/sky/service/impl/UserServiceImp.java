@@ -1,10 +1,8 @@
 package com.sky.service.impl;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sky.constant.MessageConstant;
-import com.sky.context.BaseContext;
 import com.sky.dto.UserLoginDTO;
 import com.sky.entity.User;
 import com.sky.exception.LoginFailedException;
@@ -68,7 +66,7 @@ public class UserServiceImp implements UserService {
         }
         //创建令牌
         HashMap<String, Object> claims = new HashMap<>();
-        claims.put("userId",openid);
+        claims.put("userId",user.getId());
         String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
 
         //最后对user进行封装
