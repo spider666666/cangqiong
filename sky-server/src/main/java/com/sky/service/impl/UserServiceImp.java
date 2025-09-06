@@ -78,4 +78,9 @@ public class UserServiceImp implements UserService {
 
         return Result.success(userLoginVO);
     }
+
+    @Override
+    public User queryById(Long userId) {
+        return userMapper.queryById(userId);
+    }
 }
