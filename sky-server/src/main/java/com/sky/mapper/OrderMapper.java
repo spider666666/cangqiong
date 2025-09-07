@@ -1,5 +1,6 @@
 package com.sky.mapper;
 
+import cn.hutool.db.sql.Order;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.*;
 
@@ -27,4 +28,14 @@ public interface OrderMapper {
 
 
     void update(Orders order);
+
+    /**
+     * 根据订单号查询订单
+     * @param orderNumber
+     */
+    @Select("select * from orders where number = #{orderNumber}")
+    Orders getByNumber(String orderNumber);
+
+    @Select("select * from orders where id = #{id}")
+    Orders queryById(Long id);
 }
