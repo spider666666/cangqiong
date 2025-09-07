@@ -126,6 +126,8 @@
             <artifactId>spring-boot-starter-cache</artifactId>
             <version>2.7.3</version> <!-- 版本号可根据最新稳定版调整 -->
         </dependency>
+
+
     </dependencies>
 
     <build>

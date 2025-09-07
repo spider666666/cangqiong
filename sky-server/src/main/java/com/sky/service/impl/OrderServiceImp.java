@@ -13,8 +13,10 @@ import com.sky.mapper.ShoppingCartMapper;
 import com.sky.service.OrderService;
 import com.sky.service.UserService;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.webSocket.WebSocketServer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +45,8 @@ public class OrderServiceImp implements OrderService {
     @Autowired
     private OrderDetailMapper orderDetailMapper;
 
+    @Autowired
+    private WebSocketServer webSocketServer;
     @Override
     @Transactional
     public OrderSubmitVO submitOrder(OrdersSubmitDTO ordersSubmitDTO) {
@@ -102,6 +106,13 @@ public class OrderServiceImp implements OrderService {
                 .orderTime(orders.getOrderTime())
                 .orderNumber(orders.getNumber())
                 .build();
+
+
+        //模拟，下单业务完成之后进行消息的推送
+        webSocketServer.sendToAllClient("用户下单成功了");
+
+
+
         return orderSubmitVO;
     }
 }
